@@ -1,7 +1,6 @@
 const { MongoClient } = require('mongodb'); //este es un cliente que se va a conectar con el sv de base de datos
 const debug = require('debug')('app:module-database');
 const { Config: { port, mongo_uri, db_name } } = require('../config/index');
-console.log(port, mongo_uri, db_name);
 
 
 var connection = null;
@@ -10,12 +9,12 @@ module.exports.DatabaseConnection = (collection) => new Promise(async (res, rej)
         if (!connection) {
             const client = new MongoClient(mongo_uri); //recibe url y retorna cliente
             //para evitar crear varias conexiones, se utiliza un patron para detectar que existan conexiones
-            let connection = await client.connect();
+            connection = await client.connect();
             debug('nueva conexión realizada');
         }
         debug('conexion ya existente');
         const db = connection.db(db_name);
-        resolve(db.collection(collection))
+        res(db.collection(collection))
 
     } catch (error) {
         rej(error);
