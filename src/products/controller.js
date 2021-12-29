@@ -14,7 +14,8 @@ module.exports = {
     },
     getProduct: async (req, res) => {
         try {
-            let product = await getById(2)
+            const { id } = req.params;
+            let product = await getById(id);
             res.json(product);
         } catch (error) {
             res.status(500).json({ message: 'internal server error' })

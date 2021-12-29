@@ -14,7 +14,7 @@ const getById = async (idToFind) => {
 
     const collection = await DatabaseConnection(COLLECTION);
     return await collection.findOne({
-        _id: ObjectId(idToFind)
+        _id: new ObjectId(idToFind)
     })
 }
 
