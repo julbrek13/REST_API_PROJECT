@@ -1,4 +1,4 @@
-const { ProductsService: { getAll, getById, createProduct } } = require('./services');
+const { ProductsService: { getAll, getById, createProduct, generateReportService } } = require('./services');
 const debug = require('debug')('app:module-products-controller');
 const { Response } = require('../common/response');
 const createError = require('http-errors');
@@ -47,6 +47,15 @@ module.exports = {
             Response.error(res);
             debug(error);
         }
-    }
+    },
+    generateReport: (req, res) => {
+        try {
+            //cuando se retorna de esta forma, al acceder a la url se descarga el excel
+            generateReportService(res);
 
+        } catch (error) {
+            Response.error(res);
+            debug(error);
+        }
+    }
 }

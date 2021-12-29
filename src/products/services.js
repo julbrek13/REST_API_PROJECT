@@ -1,5 +1,6 @@
 const { DatabaseConnection } = require('../database/index');
 const { ObjectId } = require('mongodb');
+const { excelGenerator } = require('./utils');
 
 const COLLECTION = 'products';
 /***
@@ -24,8 +25,14 @@ const createProduct = async (product) => {
     return result.insertedId
 }
 
+const generateReportService = async (res) => {
+    let products = await getAll();
+    excelGenerator(products, res);
+}
+
 module.exports.ProductsService = {
     getAll: getAll,
     getById: getById,
-    createProduct: createProduct
+    createProduct: createProduct,
+    generateReportService: generateReportService
 }
