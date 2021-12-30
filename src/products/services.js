@@ -30,9 +30,17 @@ const generateReportService = async (res) => {
     excelGenerator(products, res);
 }
 
+const deleteProductById = async (idToDelete) => {
+    const collection = await DatabaseConnection(COLLECTION);
+    return await collection.deleteOne({
+        _id: new ObjectId(idToDelete)
+    })
+}
+
 module.exports.ProductsService = {
     getAll: getAll,
     getById: getById,
     createProduct: createProduct,
-    generateReportService: generateReportService
+    generateReportService: generateReportService,
+    deleteProductById: deleteProductById
 }

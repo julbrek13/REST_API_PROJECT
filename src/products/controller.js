@@ -1,4 +1,4 @@
-const { ProductsService: { getAll, getById, createProduct, generateReportService } } = require('./services');
+const { ProductsService: { getAll, getById, createProduct, generateReportService, deleteProductById } } = require('./services');
 const debug = require('debug')('app:module-products-controller');
 const { Response } = require('../common/response');
 const createError = require('http-errors');
@@ -53,6 +53,16 @@ module.exports = {
             //cuando se retorna de esta forma, al acceder a la url se descarga el excel
             generateReportService(res);
 
+        } catch (error) {
+            Response.error(res);
+            debug(error);
+        }
+    },
+    deleteProduct: async (req, res) => {
+        const { params: { id } } = req;
+        try {
+            const eliminacion = await deleteProductById(id);
+            Response.success(res, 200, 'Eliminado correctamente', { operation: eliminacion })
         } catch (error) {
             Response.error(res);
             debug(error);
