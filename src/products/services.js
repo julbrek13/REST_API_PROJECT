@@ -49,11 +49,25 @@ const updateProductById = async (idToUpdate, newUser) => {
     return actualization
 }
 
+const updateManyProducts = async () => {
+    const collection = await DatabaseConnection(COLLECTION);
+    const update = collection.updateMany({
+        precio: { $gt: 100 },
+    },
+        {
+            $set: {
+                precio: 'consultar aquí'
+            }
+        })
+    return update
+}
+
 module.exports.ProductsService = {
     getAll: getAll,
     getById: getById,
     createProduct: createProduct,
     generateReportService: generateReportService,
     deleteProductById: deleteProductById,
-    updateProductById: updateProductById
+    updateProductById: updateProductById,
+    updateManyProducts: updateManyProducts
 }

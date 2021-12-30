@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getProducts, getProduct, createProduct, generateReport, deleteProduct, updateProduct } = require('./controller');
+const { getProducts, getProduct, createProduct, generateReport, deleteProduct, updateProduct, updateMany } = require('./controller');
 
 module.exports.ProductsApi = (app) => {
     router.get('/report', generateReport)
@@ -11,5 +11,6 @@ module.exports.ProductsApi = (app) => {
     router.get('/delete/:id', deleteProduct);
     //update
     router.post('/update/:id', updateProduct);
+    router.get('/updateMany/precio', updateMany);
     app.use('/api/products', router);
 }

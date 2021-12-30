@@ -85,5 +85,19 @@ module.exports = {
         }
 
 
+    },
+    updateMany: async (req, res) => {
+        try {
+            const result = await ProductsService.updateManyProducts();
+            if (result) {
+                Response.success(res, 200, 'varios modificados correctamente', { result })
+            } else {
+                Response.error(res);
+            }
+            Response.success(res, 200, 'varios modificados correctamente', { result })
+        } catch (error) {
+            debug(error);
+            Response.error(res);
+        }
     }
 }
