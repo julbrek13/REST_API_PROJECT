@@ -37,10 +37,23 @@ const deleteProductById = async (idToDelete) => {
     })
 }
 
+const updateProductById = async (idToUpdate, newUser) => {
+    const collection = await DatabaseConnection(COLLECTION);
+    const actualization = await collection.updateOne({
+        _id: new ObjectId(idToUpdate)
+    }, {
+        $set: {
+            ...newUser
+        }
+    })
+    return actualization
+}
+
 module.exports.ProductsService = {
     getAll: getAll,
     getById: getById,
     createProduct: createProduct,
     generateReportService: generateReportService,
-    deleteProductById: deleteProductById
+    deleteProductById: deleteProductById,
+    updateProductById: updateProductById
 }

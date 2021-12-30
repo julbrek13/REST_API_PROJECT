@@ -1,4 +1,4 @@
-const { ProductsService: { getAll, getById, createProduct, generateReportService, deleteProductById } } = require('./services');
+const { ProductsService } = require('./services');
 const debug = require('debug')('app:module-products-controller');
 const { Response } = require('../common/response');
 const createError = require('http-errors');
@@ -6,7 +6,7 @@ const createError = require('http-errors');
 module.exports = {
     getProducts: async (req, res) => {
         try {
-            let products = await getAll()
+            let products = await ProductsService.getAll()
             //implementacion de respuestas personalizadas
             Response.success(res, 200, 'lista de productos', products);
         } catch (error) {
@@ -17,7 +17,7 @@ module.exports = {
     getProduct: async (req, res) => {
         try {
             const { id } = req.params;
-            let product = await getById(id);
+            let product = await ProductsService.getById(id);
             if (product) {
                 Response.success(res, 200, `Producto id: ${id}`, product);
             } else {
@@ -33,7 +33,7 @@ module.exports = {
         try {
             const { body } = req;
             if (body) {
-                let result = await createProduct(body)
+                let result = await ProductsService.createProduct(body)
                 if (result) {
                     Response.success(res, 201, 'producto creado correctamente', result);
                 } else {
@@ -51,7 +51,7 @@ module.exports = {
     generateReport: (req, res) => {
         try {
             //cuando se retorna de esta forma, al acceder a la url se descarga el excel
-            generateReportService(res);
+            ProductsService.generateReportService(res);
 
         } catch (error) {
             Response.error(res);
@@ -61,11 +61,29 @@ module.exports = {
     deleteProduct: async (req, res) => {
         const { params: { id } } = req;
         try {
-            const eliminacion = await deleteProductById(id);
+            const eliminacion = await ProductsService.deleteProductById(id);
             Response.success(res, 200, 'Eliminado correctamente', { operation: eliminacion })
         } catch (error) {
             Response.error(res);
             debug(error);
         }
+    },
+    updateProduct: async (req, res) => {
+        try {
+            const dataUpdate = req.body;
+            const { params: { id } } = req;
+            const result = await ProductsService.updateProductById(id, dataUpdate);
+            //llamar a function de services que actualice en la d
+            if (result) {
+                Response.success(res, 200, 'actualizado correctamente', { result });
+            } else {
+                Response.error(res, createError.InternalServerError())
+            }
+        } catch (error) {
+            debug(error);
+            Response.error(res);
+        }
+
+
     }
 }
