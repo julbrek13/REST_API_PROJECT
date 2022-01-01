@@ -6,6 +6,7 @@ const createError = require('http-errors');
 const debug = require('debug')('app:main');
 const { Config: { port } } = require('./src/config/index')
 const { ProductsApi } = require('./src/products/index');
+const { UsersApi } = require('./src/users/index');
 /**
  * constantes 
  */
@@ -17,7 +18,7 @@ const app = express();
  */
 app.use(express.json())
 ProductsApi(app);
-
+UsersApi(app);
 
 /**ejemplo de http-errors */
 // app.use(function (req, res, next) {
