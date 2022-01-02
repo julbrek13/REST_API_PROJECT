@@ -10,12 +10,17 @@ const PRODUCTS = 'products';
 
 
 module.exports.SalesService = {
+    getSales: async () => {
+        const collection = await DatabaseConnection(MAIN_COLLECTION);
+        const sales = await collection.find({}).toArray();
+        return sales ? sales : null
+    },
     /**
      * 
      * @param {*id de usuario para comprobar su existencia} userId 
      * @param {*array de ids de productos ""} productsId 
      */
-    createSale: async (userId, array_products) => {
+    createSale: async (userId, array_products, dataSale) => {
         const main_collection = await DatabaseConnection(MAIN_COLLECTION);
         const users_collection = await DatabaseConnection(USERS);
         const products_collection = await DatabaseConnection(PRODUCTS);
@@ -42,6 +47,7 @@ module.exports.SalesService = {
                 array_products.forEach(async (product) => {
                     const nuevo_producto = await check_product(product._id)
                     if (nuevo_producto && nuevo_producto.cantidad >= product.cantidad) {
+                        nuevo_producto.cantidad_pedida = product.cantidad
                         products.push(nuevo_producto);
                     }
                     i++;
@@ -58,13 +64,27 @@ module.exports.SalesService = {
         products = await pushing_products()
 
         if (user && products.length == array_products.length) {
-            return true
+            var precio_final = 0;
+            products.forEach((product) => {
+                //product.precio debe multiplicar a cantidad llevada
+                precio_final += (product.precio * product.cantidad_pedida);
+
+            });
+            debug('el precio final es', precio_final);
+
+            const venta = await main_collection.insertOne({
+                user: user,
+                products: products
+            });
+
+            if (venta) {
+                return true
+            } else {
+                return false
+            }
         } else {
             return false
         }
-
-
-
 
     }
 }

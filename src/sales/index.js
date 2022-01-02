@@ -3,7 +3,7 @@ const router = express.Router();
 const { SalesController } = require('./controller');
 module.exports.SalesApi = (app) => {
     //GET
-    router.get('/', (req, res) => { });
+    router.get('/', SalesController.getSales);
     //POST
     router.post('/', SalesController.addSale)
     //PUT

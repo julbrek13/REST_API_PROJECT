@@ -4,12 +4,26 @@ const createError = require('http-errors');
 const { SalesService } = require('./services');
 
 module.exports.SalesController = {
+    getSales: async (req, res) => {
+        try {
+            const sales = await SalesService.getSales();
+            if (sales) {
+
+                Response.success(res, 200, 'lista de ventas', sales);
+            } else {
+                Response.error(res);
+            }
+        } catch (error) {
+            Response.error(res);
+            debug(error);
+        }
+    },
     addSale: async (req, res) => {
         try {
             const dataSale = req.body;
             // const array_products = dataSale.products.map((product) => product._id);
 
-            const test = await SalesService.createSale(dataSale.user._id, dataSale.products);
+            const test = await SalesService.createSale(dataSale.user._id, dataSale.products, dataSale);
             if (test) {
                 Response.success(res, 201, 'venta creada', test)
             } else {
