@@ -7,6 +7,7 @@ const debug = require('debug')('app:main');
 const { Config: { port } } = require('./src/config/index')
 const { ProductsApi } = require('./src/products/index');
 const { UsersApi } = require('./src/users/index');
+const { SalesApi } = require('./src/sales/index');
 /**
  * constantes 
  */
@@ -19,6 +20,7 @@ const app = express();
 app.use(express.json())
 ProductsApi(app);
 UsersApi(app);
+SalesApi(app);
 
 /**ejemplo de http-errors */
 // app.use(function (req, res, next) {
