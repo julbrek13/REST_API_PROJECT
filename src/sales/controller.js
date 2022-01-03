@@ -9,7 +9,7 @@ module.exports.SalesController = {
             const sales = await SalesService.getSales();
             if (sales) {
 
-                Response.success(res, 200, 'lista de ventas', sales);
+                Response.success(res, 200, 'lista de ventas', { sales: sales });
             } else {
                 Response.error(res);
             }

@@ -8,7 +8,7 @@ module.exports = {
         try {
             let products = await ProductsService.getAll()
             //implementacion de respuestas personalizadas
-            Response.success(res, 200, 'lista de productos', products);
+            Response.success(res, 200, 'lista de productos', { products: products });
         } catch (error) {
             Response.error(res);
             debug(error);

@@ -76,7 +76,9 @@ module.exports.SalesService = {
 
             const venta = await main_collection.insertOne({
                 user: user,
-                products: products
+                products: products,
+                precio_final: precio_final,
+                fecha: new Date()
             });
 
             if (venta) {

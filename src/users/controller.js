@@ -8,8 +8,8 @@ const createError = require('http-errors');
 module.exports.UsersController = {
     getUsers: async (req, res) => {
         try {
-            const result = await UsersServices.getAllUsers();
-            Response.success(res, 200, 'lista de usuarios', { length: result.length, result: result });
+            const users = await UsersServices.getAllUsers();
+            Response.success(res, 200, 'lista de usuarios', { length: users.length, users: users });
         } catch (error) {
             Response.error(res)
             debug(error);

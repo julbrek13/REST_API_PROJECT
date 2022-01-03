@@ -4,6 +4,7 @@
 const express = require('express');
 const createError = require('http-errors');
 const debug = require('debug')('app:main');
+const cors = require('cors');
 const { Config: { port } } = require('./src/config/index')
 const { ProductsApi } = require('./src/products/index');
 const { UsersApi } = require('./src/users/index');
@@ -17,10 +18,15 @@ const app = express();
 /**
  * modificaciones a la app
  */
+/**
+ * AGREGAR CORS ANTES DE AGREGAR LAS RUTAS!!
+ */
+app.use(cors());
 app.use(express.json())
 ProductsApi(app);
 UsersApi(app);
 SalesApi(app);
+
 
 /**ejemplo de http-errors */
 // app.use(function (req, res, next) {
