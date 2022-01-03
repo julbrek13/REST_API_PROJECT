@@ -17,8 +17,10 @@ module.exports.SalesService = {
     },
     /**
      * 
-     * @param {*id de usuario para comprobar su existencia} userId 
-     * @param {*array de ids de productos ""} productsId 
+     * @param {*id del usuario que solicita la compra} userId 
+     * @param {*array con los productos. contiene id y cantidad pedida} array_products 
+     * @param {*los datos de la req completa} dataSale 
+     * @returns 
      */
     createSale: async (userId, array_products, dataSale) => {
         const main_collection = await DatabaseConnection(MAIN_COLLECTION);
@@ -68,7 +70,7 @@ module.exports.SalesService = {
             products.forEach((product) => {
                 //product.precio debe multiplicar a cantidad llevada
                 precio_final += (product.precio * product.cantidad_pedida);
-
+                delete product.cantidad
             });
             debug('el precio final es', precio_final);
 
@@ -86,5 +88,12 @@ module.exports.SalesService = {
             return false
         }
 
+    },
+    removeSale: async (id) => {
+        const collection = await DatabaseConnection(MAIN_COLLECTION);
+        const remove = await collection.deleteOne({
+            _id: new ObjectId(id)
+        })
+        return remove ? remove : null
     }
 }

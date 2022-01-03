@@ -35,5 +35,15 @@ module.exports.SalesController = {
             Response.error(res)
             debug(error);
         }
+    },
+    deleteSale: async (req, res) => {
+        try {
+            const { params: { id } } = req;
+            const remove = await SalesService.removeSale(id)
+            remove ? Response.success(res, 200, 'eliminado correctamente', { remove }) : Response.error(res)
+        } catch (error) {
+            Response.error(res);
+            debug(error);
+        }
     }
 }

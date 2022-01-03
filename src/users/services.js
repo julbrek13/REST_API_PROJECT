@@ -20,7 +20,8 @@ module.exports.UsersServices = {
         const collection = await DatabaseConnection(COLLECTION);
         //en lugar de pasarle {...newUser} como param, podría pasar directamente newUser
         const creation = await collection.insertOne({
-            ...newUser
+            ...newUser,
+            fecha_creacion: new Date()
         })
         return creation
     },
@@ -33,15 +34,16 @@ module.exports.UsersServices = {
                 ...dataUpdate
             },
             $unset: {
-                createtime: "",
-                modifiedAt: ''
+                //keys a eliminar
             },
             $currentDate: {
                 lastModified: true,
-                "fecha": { $type: "timestamp" }
             }
         })
-        return update
+        const user_updated = await collection.findOne({
+            _id: new ObjectId(id)
+        })
+        return { update: update, user_updated: user_updated }
     },
     deleteUser: async (id) => {
         const collection = await DatabaseConnection(COLLECTION);

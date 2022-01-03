@@ -6,7 +6,8 @@ module.exports.SalesApi = (app) => {
     router.get('/', SalesController.getSales);
     //POST
     router.post('/', SalesController.addSale)
-    //PUT
+    //PUT 
     //DELETE
+    router.delete('/delete/:id', SalesController.deleteSale)
     app.use('/api/sales', router);
 }
