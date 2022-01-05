@@ -21,7 +21,12 @@ const app = express();
 /**
  * AGREGAR CORS ANTES DE AGREGAR LAS RUTAS!!
  */
-app.use(cors());
+const corsOptions = {
+    origin: [/http:\/\/127.0.0.1:*/],
+    optionsSuccessStatus: 200,
+    allowedHeaders: ['Content-type', 'Authorization']
+}
+app.use(cors(corsOptions));
 app.use(express.json())
 ProductsApi(app);
 UsersApi(app);
