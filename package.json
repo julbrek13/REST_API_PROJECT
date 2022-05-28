@@ -16,7 +16,8 @@
     "excel4node": "^1.7.2",
     "express": "^4.17.2",
     "http-errors": "^2.0.0",
-    "mongodb": "^4.2.2"
+    "mongodb": "^4.2.2",
+    "package.json": "^2.0.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
